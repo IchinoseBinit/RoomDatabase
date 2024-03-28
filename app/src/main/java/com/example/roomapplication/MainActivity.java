@@ -1,4 +1,7 @@
-package com.example.roomapplication;import android.os.Bundle;
+package com.example.roomapplication;
+
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize views
         editTextName = findViewById(R.id.editTextName);
         buttonInsert = findViewById(R.id.buttonInsert);
+        Button buttonNavigate = findViewById(R.id.buttonNavigate);
 
         // Initialize database
         myAppDatabase = MyAppDatabase
@@ -46,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
                 String value = editTextName.getText().toString();
                 Log.d("insert btn", "success");
                 insertUser();
+            }
+        });
+
+        buttonNavigate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity((new Intent(MainActivity.this, RecyclerActivity.class)));
             }
         });
     }
@@ -72,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 myAppDatabase.userDao().insert(user);
-                System.out.println(myAppDatabase.userDao().getAllUsers());
             }
         });
+
 
 
         // Clear EditText after insertion
@@ -82,5 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Show success message
         Toast.makeText(this, "User inserted successfully", Toast.LENGTH_SHORT).show();
+
+
     }
 }
